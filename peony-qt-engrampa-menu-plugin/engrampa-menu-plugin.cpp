@@ -8,14 +8,13 @@
 #include <QProcess>
 #include <QDebug>
 
-
 using namespace Peony;
 
 EngrampaMenuPlugin::EngrampaMenuPlugin(QObject *parent) : QObject (parent)
 {
     QTranslator *t = new QTranslator(this);
     qDebug()<<"system().name:"<<QLocale::system().name();
-    qDebug()<<"\n\n\n\n\n\n\ntranslate:"<<t->load(":/translations/peony-qt-karchive-extension_"+QLocale::system().name());
+    qDebug()<<"\n\n\n\n\n\n\ntranslate:"<<t->load(":/translations/peony-qt-engrampa-menu-extension_"+QLocale::system().name());
     QApplication::installTranslator(t);
 }
 
@@ -26,39 +25,39 @@ QList<QAction*> EngrampaMenuPlugin::menuActions(Types types, const QString &uri,
     {
         if (! selectionUris.isEmpty()) {
             QFileInfo file(selectionUris.first());
-            QAction *compress = new QAction(tr("compress..."));
+            QAction *compress = new QAction(QIcon::fromTheme("application-zip"), tr("compress..."));
             actions<<compress;
             connect(compress, &QAction::triggered, [=](){
                 qDebug()<<"compress file:"<<uri<<selectionUris;
                 QProcess p;
                 p.setProgram("engrampa");
                 p.setArguments(QStringList()<<"-d"<<selectionUris);
-                p.start();
-                p.waitForFinished();
+                p.startDetached();
+                p.waitForFinished(-1);
             });
 
             //check is compressed file
             qDebug()<<"file.suffix"<<file.suffix()<<file.isDir()<<file;
             if (!file.isDir() && is_uncompressed_file(selectionUris.first()))
             {
-                QAction *un_compress_default = new QAction(tr("uncompress to current path"));
+                QAction *un_compress_default = new QAction(QIcon::fromTheme("application-zip"), tr("uncompress to current path"));
                 actions<<un_compress_default;
                 connect(un_compress_default, &QAction::triggered, [=](){
                     QProcess p;
                     p.setProgram("engrampa");
                     p.setArguments(QStringList()<<"-h"<<selectionUris);
-                    p.start();
-                    p.waitForFinished();
+                    p.startDetached();
+                    p.waitForFinished(-1);
                 });
 
-                QAction *un_compress_specific = new QAction(tr("uncompress to specific path"));
+                QAction *un_compress_specific = new QAction(QIcon::fromTheme("application-zip"), tr("uncompress to specific path..."));
                 actions<<un_compress_specific;
                 connect(un_compress_specific, &QAction::triggered, [=](){
                     QProcess p;
                     p.setProgram("engrampa");
                     p.setArguments(QStringList()<<"-f"<<selectionUris);
-                    p.start();
-                    p.waitForFinished();
+                    p.startDetached();
+                    p.waitForFinished(-1);
                 });
             }
         }

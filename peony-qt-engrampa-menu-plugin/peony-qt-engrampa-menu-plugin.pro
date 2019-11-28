@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += widgets
+QT       += widgets concurrent
 
 TARGET = peony-qt-engrampa-menu-plugin
 TEMPLATE = lib
@@ -22,10 +22,15 @@ DEFINES += QT_DEPRECATED_WARNINGS
 # You can also select to disable deprecated APIs only up to a certain version of Qt.
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
+CONFIG += link_pkgconfig
+
+PKGCONFIG += peony-qt
+
+TRANSLATIONS = translations/peony-qt-engrampa-menu-extension_zh_CN.ts
 
 
 SOURCES += \
-        engrampa-menu-plugin.cpp
+    engrampa-menu-plugin.cpp
 
 HEADERS += \
         engrampa-menu-plugin.h \
@@ -35,3 +40,6 @@ unix {
     target.path = /usr/lib/peony-qt-extensions
     INSTALLS += target
 }
+
+RESOURCES += \
+    peony-qt-engrampa-menu.qrc

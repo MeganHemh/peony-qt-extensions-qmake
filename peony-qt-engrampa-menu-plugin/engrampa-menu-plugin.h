@@ -2,8 +2,7 @@
 #define ENGRAMPAMENUPLUGIN_H
 
 #include "peony-qt-engrampa-menu-plugin_global.h"
-#include "peony-qt/menu-plugin-iface.h"
-#include "peony-qt/plugin-iface.h"
+#include <menu-plugin-iface.h>
 
 namespace Peony {
 
@@ -16,9 +15,9 @@ public:
     explicit EngrampaMenuPlugin(QObject *parent = nullptr);
 
     PluginInterface::PluginType pluginType() override {return PluginInterface::MenuPlugin;}
-    const QString name() override {return tr("Peony-Qt KArchive Menu Extension");}
-    const QString description() override {return tr("KArchive Menu Extension.");}
-    const QIcon icon() override {return QIcon::fromTheme("utilities-terminal-symbolic");}
+    const QString name() override {return tr("Peony-Qt engrampa Extension");}
+    const QString description() override {return tr("engrampa Menu Extension.");}
+    const QIcon icon() override {return QIcon::fromTheme("application-zip");}
     void setEnable(bool enable) override {m_enable = enable;}
     bool isEnable() override {return m_enable;}
 
@@ -29,8 +28,8 @@ public:
 
 private:
     bool m_enable;
-    QStringList m_file_type_list = {"7z","ar","cbz","ear","exe","jar","tar","tar.7z",
-                                    "tar.bz2","tar.gz","tar.lzma","tar.xz","war","zip"};
+    QStringList m_file_type_list = {"7z","ar","cbz","deb", "ear","exe","jar","tar","tar.7z",
+                                    "tar.bz2","tar.gz","tar.lzma","rar","tar.xz","war","zip"};
 };
 
 }
